@@ -163,7 +163,7 @@ def describe(items):
             info = repo_info(repo)
             item.setdefault("description", info["description"])
             item.setdefault("stars", info["stars"])
-        lines.append(f"- {item['kind']} in {repo} (https://github.com/{repo}, "
+        lines.append(f"- {item['kind']} in repo {repo.split('/')[1]} (https://github.com/{repo}, "
                      f"{item['stars']} stars): {item['description']}")
         if item["kind"] != "my repo":
             lines.append(f"  {item['title']} ({item['url']}, {item['date']})")
