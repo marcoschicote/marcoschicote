@@ -13,6 +13,7 @@ Most of my work has been in domains where the product is the algorithm: routing 
 - [midea-lan](https://github.com/wuwentao/midea-lan): a library for controlling Midea appliances over the local network, used by the Midea AC LAN integration for Home Assistant. I added dishwasher support: delayed start, cancel, door auto-open and wash settings.
 - [e-data](https://github.com/uvejota/homeassistant-edata): a Home Assistant integration for Spanish electricity consumption data from Datadis. I contributed fixes to its energy statistics, credited in the maintainer's rework.
 - [python-holidays](https://github.com/vacanza/holidays): a Python library of public holidays for countries around the world. I added Barcelona's local holidays.
+- [capistrano-puma](https://github.com/seuros/capistrano-puma): Puma integration for Capistrano. I closed ActiveRecord connections before forking.
 - [capistrano3-autoscaling-deploy](https://github.com/marcoschicote/capistrano3-autoscaling-deploy) (my project): a Capistrano plugin that deploys to the in-service instances of an AWS Auto Scaling group, published as a Ruby gem. Brought back to life in 2026 as version 2.0, on the current AWS SDK and with a proper test suite and CI.
 <!-- GITHUB:END -->
 
