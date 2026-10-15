@@ -13,7 +13,7 @@ Most of my work has been in domains where the product is the algorithm: routing 
 - [capistrano3-autoscaling-deploy](https://github.com/marcoschicote/capistrano3-autoscaling-deploy): a Capistrano plugin that deploys to the in-service instances of an AWS Auto Scaling group, published as a Ruby gem. Brought back to life in 2026 as version 2.0, on the current AWS SDK and with a proper test suite and CI.
 
 **Open source I've contributed to**
-- Home Assistant integrations I use at home: dishwasher support (delayed start, cancel, door auto-open and wash settings) for Midea appliances in [midea-lan](https://github.com/wuwentao/midea-lan), and fixes to the energy statistics of [e-data](https://github.com/uvejota/homeassistant-edata), which pulls Spanish electricity consumption data from Datadis.
+- Home Assistant integrations I use at home: dishwasher support (delayed start, cancel, door auto-open and wash settings) for Midea appliances in [midea-lan](https://github.com/wuwentao/midea-lan), contributed via PRs adding those features; and fixes to the energy statistics of [e-data](https://github.com/uvejota/homeassistant-edata), which pulls Spanish electricity consumption data from Datadis.
 - Barcelona's local holidays for [python-holidays](https://github.com/vacanza/holidays).
 <!-- GITHUB:END -->
 
