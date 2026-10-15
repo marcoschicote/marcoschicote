@@ -30,28 +30,30 @@ STATE = os.path.join(HERE, "state.json")
 PR_BODY = os.path.join(HERE, "pr-body.md")  # not committed, read by the workflow
 
 START, END = "<!-- GITHUB:START -->", "<!-- GITHUB:END -->"
-MAINTAIN, CONTRIBUTED = "**Open source I maintain**", "**Open source I've contributed to**"
+HEADING = "**Open source**"
+MINE = "(my project)"
 
 SYSTEM_PROMPT = f"""You edit one section of a GitHub profile README.
 
-The section has exactly two parts, each a bold heading followed by bullets:
-{MAINTAIN}
-{CONTRIBUTED}
+The section is the heading {HEADING} followed by one bullet per repo, in this form:
+- [repo name](repo url): what the project is. What I did in it.
+Contributions to other people's projects come first. Repos I created come last,
+marked with "{MINE}" right after the link, and only say what the project is.
 
 You get the current section and a list of new items. Return the updated section.
 
 Rules:
-- Work new items into the right part: repos the owner created go under the first
-  heading, contributions to other people's projects under the second.
-- Keep the existing bullets and their wording unless a new item adds to them.
-  Group related work in one bullet (e.g. several PRs to the same project).
-- Each project is linked once, as [name](url), using only URLs given to you.
-- Match the existing tone: first person implied, plain, specific, no hype, no emoji.
-  Describe what the work does for users, not the commit titles.
+- An item for a repo that already has a bullet goes into that bullet. Only add
+  a bullet for a repo that doesn't have one yet, in the right place of the order.
+- Leave bullets alone, word for word, when the new items add nothing to them,
+  including when a bullet already describes an item. Don't restate or pad.
+- Describe what the project is and what the work does for its users, not commit
+  titles. Plain and specific, first person ("I added ..."), no hype, no emoji.
+- Use only the URLs you are given.
 - Skip trivial items (license year bumps, typo fixes, CI tweaks) when they don't
   add anything worth telling a visitor. Leaving the section unchanged is fine.
 - Never invent facts that aren't in the input.
-- Output only the section markdown: the two headings and their bullets.
+- Output only the section markdown: the heading and its bullets.
   No markers, no code fences, no commentary."""
 
 
@@ -161,7 +163,7 @@ def describe(items):
             info = repo_info(repo)
             item.setdefault("description", info["description"])
             item.setdefault("stars", info["stars"])
-        lines.append(f"- {item['kind']} in {repo} (https://github.com/{repo}, "
+        lines.append(f"- {item['kind']} in repo {repo.split('/')[1]} (https://github.com/{repo}, "
                      f"{item['stars']} stars): {item['description']}")
         if item["kind"] != "my repo":
             lines.append(f"  {item['title']} ({item['url']}, {item['date']})")
@@ -211,10 +213,14 @@ def call_model(config, section, new_items):
 
 def check(text, section, new_items):
     """Why the model's section can't be used, or None if it can."""
-    if MAINTAIN not in text or CONTRIBUTED not in text:
-        return "a heading is missing"
-    if text.index(MAINTAIN) > text.index(CONTRIBUTED):
-        return "the headings are out of order"
+    if not text.startswith(HEADING):
+        return "it doesn't start with the heading"
+    bullets = [line for line in text.splitlines() if line.startswith("- ")]
+    if not bullets or not all(line.startswith("- [") for line in bullets):
+        return "a bullet doesn't start with the repo link"
+    mine = [MINE in line for line in bullets]
+    if mine != sorted(mine):
+        return "my own projects aren't last"
     if START in text or END in text:
         return "it contains the markers"
     if len(text) > 2 * len(section) + 800:
@@ -228,18 +234,17 @@ def check(text, section, new_items):
 
 def fallback(section, new_items):
     """No model available: add plain bullets for review to finish by hand."""
-    mine = [i for i in new_items if i["kind"] == "my repo"]
-    theirs = {}
+    lines = section.splitlines()
+    first_mine = next((n for n, line in enumerate(lines) if MINE in line), len(lines))
+    theirs, mine = {}, []
     for i in new_items:
-        if i["kind"] != "my repo":
-            theirs.setdefault(i["repo"], []).append(i)
-    maintain, contributed = section.split(CONTRIBUTED, 1)
-    for i in mine:
-        maintain = maintain.rstrip() + f"\n- [{i['title']}]({i['url']}): {i['description']}\n\n"
-    for repo, group in theirs.items():
-        titles = "; ".join(i["title"] for i in group)
-        contributed = contributed.rstrip() + f"\n- [{repo.split('/')[1]}](https://github.com/{repo}): {titles}"
-    return maintain + CONTRIBUTED + contributed
+        if i["kind"] == "my repo":
+            mine.append(f"- [{i['title']}]({i['url']}) {MINE}: {i['description']}")
+        else:
+            theirs.setdefault(i["repo"], []).append(i["title"])
+    theirs = [f"- [{repo.split('/')[1]}](https://github.com/{repo}): {'; '.join(titles)}"
+              for repo, titles in theirs.items()]
+    return "\n".join(lines[:first_mine] + theirs + lines[first_mine:] + mine)
 
 
 def pr_body(new_items, model, error, changed):

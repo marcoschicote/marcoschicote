@@ -9,12 +9,11 @@ Most of my work has been in domains where the product is the algorithm: routing 
 - **Avancargo** (2017–2022): co-founder, first as CTO and then Head of Product, of a B2B logistics SaaS in Buenos Aires. Grew it from idea to 25k users and a $1M seed round.
 
 <!-- GITHUB:START -->
-**Open source I maintain**
-- [capistrano3-autoscaling-deploy](https://github.com/marcoschicote/capistrano3-autoscaling-deploy): a Capistrano plugin that deploys to the in-service instances of an AWS Auto Scaling group, published as a Ruby gem. Brought back to life in 2026 as version 2.0, on the current AWS SDK and with a proper test suite and CI.
-
-**Open source I've contributed to**
-- Home Assistant integrations I use at home: dishwasher support (delayed start, cancel, door auto-open and wash settings) for Midea appliances in [midea-lan](https://github.com/wuwentao/midea-lan), and fixes to the energy statistics of [e-data](https://github.com/uvejota/homeassistant-edata), which pulls Spanish electricity consumption data from Datadis.
-- Barcelona's local holidays for [python-holidays](https://github.com/vacanza/holidays).
+**Open source**
+- [midea-lan](https://github.com/wuwentao/midea-lan): a library for controlling Midea appliances over the local network, used by the Midea AC LAN integration for Home Assistant. I added dishwasher support: delayed start, cancel, door auto-open and wash settings.
+- [e-data](https://github.com/uvejota/homeassistant-edata): a Home Assistant integration for Spanish electricity consumption data from Datadis. I contributed fixes to its energy statistics, credited in the maintainer's rework.
+- [python-holidays](https://github.com/vacanza/holidays): a Python library of public holidays for countries around the world. I added Barcelona's local holidays.
+- [capistrano3-autoscaling-deploy](https://github.com/marcoschicote/capistrano3-autoscaling-deploy) (my project): a Capistrano plugin that deploys to the in-service instances of an AWS Auto Scaling group, published as a Ruby gem. Brought back to life in 2026 as version 2.0, on the current AWS SDK and with a proper test suite and CI.
 <!-- GITHUB:END -->
 
 **Background:** MSc in Computer Science (Universidad de Buenos Aires), MBA (Fundação Getulio Vargas) and a postgraduate in Data Science & AI (Universitat de Barcelona). I've also taught entrepreneurship and published research on privacy and software verification.
