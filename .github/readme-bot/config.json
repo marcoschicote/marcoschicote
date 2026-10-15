@@ -1,0 +1,16 @@
+{
+  "user": "marcoschicote",
+  "name": "Marcos Chicote",
+  "models": [
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "google/gemma-4-31b-it:free",
+    "openrouter/free"
+  ],
+  "ignore_repos": [
+    "marcoschicote/marcoschicote",
+    "marcoschicote/ha-config",
+    "marcoschicote/website",
+    "marcoschicote/wallpaper_picker"
+  ],
+  "ignore_items": []
+}
