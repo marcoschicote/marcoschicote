@@ -45,3 +45,5 @@ jobs:
           commit-message: Update the open source section of the README
           title: Update the open source section of the README
           body-path: .github/readme-bot/pr-body.md
+          # Request a review so the owner gets a notification (and email) for each new PR
+          reviewers: ${{ github.repository_owner }}
