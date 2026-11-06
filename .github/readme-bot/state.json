@@ -31,7 +31,9 @@
     "https://github.com/wuwentao/midea_ac_lan/pull/1119",
     "https://github.com/wuwentao/midea_ac_lan/pull/1120",
     "https://github.com/wuwentao/midea_ac_lan/pull/1121",
+    "https://github.com/wuwentao/midea_ac_lan/pull/1189",
     "https://github.com/xZetsubou/hass-localtuya/pull/881",
-    "repo:marcoschicote/capistrano3-autoscaling-deploy"
+    "repo:marcoschicote/capistrano3-autoscaling-deploy",
+    "repo:marcoschicote/ha-tuya-vacuum-local-map"
   ]
 }
